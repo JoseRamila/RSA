@@ -43,6 +43,16 @@ print("Mensaje original: ", msg,"\n")
 print("Longitud de mensajes en bytes: ", len(msg.encode('utf-8')))
 
 #Convertir mensaje a número 
-m = int.from_bytes(msg.encode('utf-8', byteorder='big'))
-print("Mensaje convertifo en entero: ", m, "\n")
+m = int.from_bytes(msg.encode('utf-8'), byteorder='big')
+print("Mensaje convertido en entero: ", m, "\n")
+
+c = pow(m,Fermat,nB)
+print("Mensaje cifrado: ", c)
+
+#Desciframos el mensaje
+des = pow(c,dB,nB)
+print("Mensaje descifrado: ", des)
+
+msg_final = int.to_bytes(des,len(msg), byteorder = 'big').decode('utf-8')
+print("Mnesaje final: ", msg_final)
 
