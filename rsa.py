@@ -1,4 +1,5 @@
 import Crypto.Util.number
+import hashlib
 
 #Número de bits
 bits = 1024
@@ -41,18 +42,31 @@ print("DB es: ", dB,"\n")
 msg = 'Hola mundo'
 print("Mensaje original: ", msg,"\n")
 print("Longitud de mensajes en bytes: ", len(msg.encode('utf-8')))
+hashed_msg = hashlib.sha256(msg.encode()).hexdigest()
+hashed_msg_integer = int(hashed_msg, 16)
+
+
 
 #Convertir mensaje a número 
 m = int.from_bytes(msg.encode('utf-8'), byteorder='big')
 print("Mensaje convertido en entero: ", m, "\n")
 
 c = pow(m,Fermat,nB)
-print("Mensaje cifrado: ", c)
+print("Mensaje cifrado: ", c, "\n")
 
 #Desciframos el mensaje
 des = pow(c,dB,nB)
-print("Mensaje descifrado: ", des)
+print("Mensaje descifrado: ", des, "\n")
 
 msg_final = int.to_bytes(des,len(msg), byteorder = 'big').decode('utf-8')
-print("Mnesaje final: ", msg_final)
+print("Mnesaje final: ", msg_final, "\n")
+
+#Verificar firma
+C = pow(hashed_msg_integer,dA,nA)
+comprobar = pow(C,Fermat,nA)
+if comprobar == hashed_msg_integer:
+    print("La firma es correcta", "\n")
+else:
+    print("La forma es incorrecta", "\n")
+
 
